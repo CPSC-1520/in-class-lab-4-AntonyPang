@@ -1,6 +1,59 @@
 
 // Enter your code below.
+const form = document.querySelector('#new-order-form');
 
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  orderItemName = event.target.elements['order-item-name'].value;
+  orderItemPrice = event.target.elements['order-item-price'].value;
+  orderSize = event.target.elements['order-size'].value;
+
+  const isValid = isFormValid(event.target.elements);
+
+  if (isValid) {
+    addOrderItem(orderItemName, orderItemPrice, orderSize);
+
+    form.reset();
+  }
+  else {
+    console.log('Form Invalid.');
+  }
+})
+
+const isFormValid = (elements) => {
+  const name = elements['order-item-name'].value;
+  const price = elements['order-item-price'].value;
+  const size = elements['order-size'].value;
+
+  let valid = true
+
+  if (isValueNotEmpty(name)) {
+    elements['order-item-name'].classList.remove('is-invalid');
+  }
+  else {
+    elements['order-item-name'].classList.add('is-invalid');
+    valid = false;
+  }
+
+  if (isValueNotEmpty(price) && isGreaterThanFive(price)){
+    elements['order-item-price'].classList.remove('is-invalid');
+  }
+  else {
+    elements['order-item-price'].classList.add('is-invalid');
+    valid = false;
+  }
+
+  if (isValueNotEmpty(size)){
+    elements['order-size'].classList.remove('is-invalid');
+  }
+  else {
+    elements['order-size'].classList.add('is-invalid');
+    valid = false;
+  }
+
+  return valid;
+};
 
 // functions needed for assessment (do not change.)
 
